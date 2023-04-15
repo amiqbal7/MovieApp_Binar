@@ -70,7 +70,7 @@ export const TopMovie = () => {
                   <h2 className="text-white   truncate capitalize font-sans  text-xl font-bold">
                     {movie.name}
                   </h2>
-                  <button className="bg-white bg-opacity-30 px-3 rounded-sm">
+                  <button className="bg-white bg-opacity-30 px-3 py-2 rounded-sm">
                     <p className="text-white text-xl">
                       <AiFillHeart />
                     </p>

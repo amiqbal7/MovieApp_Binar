@@ -51,19 +51,19 @@ const Detail = () => {
   };
 
   return (
-    <div className="">
+    <div className="mb-16 md:pb36">
       <div className="h-96 mt-[-67px]" style={bgImageStyle}></div>
       <div className="mx-auto text-white">
-        <div className="lg:flex justify-centermd:mx-7 mx-auto">
+        <div className="lg:flex justify-center md:mx-7 mx-auto">
           {details.poster_path && (
             <img
               src={`https://image.tmdb.org/t/p/w500/${details.poster_path}`}
               alt="detail"
-              className=" w-72 h-full lg:w-[1200px] mt-[-250px] flex justify-center lg:mx-7 mx-auto"
+              className=" w-72 h-full lg:w-[300px] xl:w-[1200px] mt-[-250px] flex justify-center lg:mx-7 mx-auto"
             />
           )}
-          <div className="text-white md:mx-16 mx-5 lg:mt-[-100px]">
-            <h1 className="text-white text-xl md:text-7xl font-bold py-5">
+          <div className="text-white md:mx-16 mx-5 lg:mt-[-150px]">
+            <h1 className="text-white text-3xl md:text-7xl font-bold py-5">
               {details.title}
             </h1>
             <div className="flex gap-2 pb-4">
@@ -74,7 +74,7 @@ const Detail = () => {
                 {details.vote_average}
               </p>
             </div>
-            <div className="genres text-white grid grid-cols-2 md:flex gap-3 pb-3 ">
+            <div className="genres text-white flex flex-wrap gap-3 pb-3 ">
               {details.genres &&
                 details.genres.slice(0, 5).map((genre, i) => (
                   <span
@@ -86,20 +86,25 @@ const Detail = () => {
                 ))}
             </div>
             <p className="pb-5">{details.overview}</p>
-            <div className="md:flex gap-3">
-              {details.credits &&
-                details.credits.cast.slice(0, 5).map((cast) => (
-                  <div key={cast.id} className="">
-                    {cast.profile_path && (
-                      <img
-                        src={`https://image.tmdb.org/t/p/w500/${cast.profile_path}`}
-                        alt={cast.name}
-                        className="w-64 flex justify-center mx-auto"
-                      />
-                    )}
-                    <p className="text-white text-center md:py-10">{cast.name}</p>
-                  </div>
-                ))}
+            <div className="Casts">
+              <h1 className="font-bold text-2xl md:text-3xl pb-3">Casts</h1>
+              <div className="md:flex gap-3">
+                {details.credits &&
+                  details.credits.cast.slice(0, 5).map((cast) => (
+                    <div key={cast.id} className="">
+                      {cast.profile_path && (
+                        <img
+                          src={`https://image.tmdb.org/t/p/w500/${cast.profile_path}`}
+                          alt={cast.name}
+                          className="w-72 flex flex-wrap justify-center mx-auto"
+                        />
+                      )}
+                      <p className="text-white font-bold text-center pb-5 ">
+                        {cast.name}
+                      </p>
+                    </div>
+                  ))}
+              </div>
             </div>
           </div>
         </div>
