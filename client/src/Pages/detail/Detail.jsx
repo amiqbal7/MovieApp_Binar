@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
-import bg from '../../assets/Footer-bg.jpg'
+import bg from "../../assets/footer-bg.jpg"
 import { AiOutlineStar } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { getPostDetails } from "../../redux/actions/postActions";
