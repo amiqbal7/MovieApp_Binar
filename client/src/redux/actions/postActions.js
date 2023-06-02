@@ -2,14 +2,14 @@ import axios from "axios";
 import { setPosts, setPostDetails, setCredits } from "../reducers/postReducers";
 import { toast } from "react-toastify";
 
-// Function to get all the posts
+
 export const getPosts = () => async (dispatch) => {
   try {
     const response = await axios.get(
-      `https://api.themoviedb.org/3/discover/movie`,
+      `${import.meta.env.VITE_TMDB_URL}/3/discover/movie`,
       {
         params: {
-          api_key: "8625d30a47546513e5ec6c4b16b9d46a",
+          api_key: import.meta.env.VITE_TMDB_KEY,
         },
       }
     );
@@ -23,17 +23,17 @@ export const getPosts = () => async (dispatch) => {
   }
 };
 
-// Function to get the details of a post
+
 export const getPostDetails = (id) => async (dispatch) => {
   try {
     const response = await axios.get(
-      `https://api.themoviedb.org/3/movie/${id}`,
+      `${import.meta.env.VITE_TMDB_URL}/3/movie/${id}`,
       {
         params: {
-          api_key: "8625d30a47546513e5ec6c4b16b9d46a",
+          api_key: import.meta.env.VITE_TMDB_KEY,
         },
       }
-    )
+    );
     dispatch(setPostDetails(response.data));
   } catch (error) {
     if (axios.isAxiosError(error)) {
@@ -45,13 +45,13 @@ export const getPostDetails = (id) => async (dispatch) => {
 };
 
 
-export const getCredits = () => async (dispatch) => {
+export const getCredits = (id) => async (dispatch) => {
   try {
     const response = await axios.get(
-      `https://api.themoviedb.org/3/movie/${id}/credits`,
+      `${import.meta.env.VITE_TMDB_URL}/3/movie/${id}/credits`,
       {
         params: {
-          api_key: "8625d30a47546513e5ec6c4b16b9d46a",
+          api_key: import.meta.env.VITE_TMDB_KEY,
         },
       }
     );
@@ -64,5 +64,3 @@ export const getCredits = () => async (dispatch) => {
     }
   }
 };
-
-

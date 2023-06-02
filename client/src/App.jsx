@@ -10,15 +10,17 @@ import Regis from "./Pages/Regis";
 import Protected from "./components/Protected";
 import { Provider } from "react-redux";
 import store from "./redux/store";
-import Update from "./components/Update";
 import RedirectifProtected from "./components/RedirectifProtected";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 const App = () => {
   return (
     <Provider store={store}>
-      <BrowserRouter>
-        <AppContent />
-      </BrowserRouter>
+      <GoogleOAuthProvider clientId="325512774328-orifft0dl5g0obkrlafcqg6lnctfhcv5.apps.googleusercontent.com">
+        <BrowserRouter>
+          <AppContent />
+        </BrowserRouter>
+      </GoogleOAuthProvider>
     </Provider>
   );
 };
@@ -57,7 +59,6 @@ const AppContent = () => {
             </RedirectifProtected>
           }
         />
-        <Route path="/Update" element={<Update />}></Route>
         <Route
           path="/:id"
           element={

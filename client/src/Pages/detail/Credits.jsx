@@ -1,24 +1,38 @@
-import React, { useEffect } from "react";
-import { getCredits } from "../../redux/actions/postActions";
-import { useSelector, useDispatch } from "react-redux";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { useParams } from "react-router-dom";
 
 const Credits = () => {
   const { id } = useParams();
-  const dispatch = useDispatch();
-  const { credits } = useSelector((state) => state.post);
+  const [credits, setCredits] = useState(null);
 
   useEffect(() => {
-    dispatch(getCredits(id));
-  }, [dispatch, id]);
+    const getCredits = () => {
+      axios
+        .get(`https://api.themoviedb.org/3/movie/${id}/credits`, {
+          params: {
+            api_key: "8625d30a47546513e5ec6c4b16b9d46a",
+          },
+        })
+        .then((response) => {
+          if (response.data && response.data.cast) {
+            setCredits(response.data.cast);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    };
+
+    getCredits();
+  }, [id]);
 
   return (
     <div className="Casts">
       <h1 className="font-bold text-2xl md:text-3xl pb-3">Casts</h1>
       <div className="md:flex gap-3">
         {credits &&
-          credits.cast &&
-          credits.cast.slice(0, 5).map((cast) => (
+          credits.slice(0, 5).map((cast) => (
             <div key={cast.id} className="">
               {cast.profile_path && (
                 <img

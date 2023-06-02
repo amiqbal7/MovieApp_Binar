@@ -3,7 +3,6 @@ import { Autoplay } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { BsFillCalendarEventFill, BsAwardFill } from "react-icons/bs";
 import { AiFillHeart } from "react-icons/ai";
-import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { getPosts } from "./../../redux/actions/postActions";
 
@@ -41,7 +40,7 @@ export const Hero = () => {
                   movie.backdrop_path || movie.posters_path
                 }`}
                 alt="movie"
-                className="w-full h-[500px] md:h-full object-cover"
+                className="w-full h-[550px] md:h-full object-cover"
               />
               <div className="">
                 <div className="absolute xl:pl-40 sm:pl-32 linear-bg py-48 sm:py-36 md:py-56 lg:py-72 xl:py-[350px] pb-[1200px] pl-12 top-0 right-0 left-0 flex flex-col md:gap-3 lg:gap-4 gap-1 justify-center">

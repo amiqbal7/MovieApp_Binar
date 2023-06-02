@@ -39,7 +39,9 @@ export const Movie = () => {
   }, []);
 
   const handleClickDetail = (id) => {
+
     navigate(`/${id}`);
+    window.location.reload();
   };
 
   return (

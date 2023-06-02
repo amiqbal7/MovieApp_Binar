@@ -13,7 +13,7 @@ export const TopMovie = () => {
 
   useEffect(() => {
     axios
-      .get(`https://api.themoviedb.org/3/movie/top_rated`, {
+      .get(`${import.meta.env.VITE_TMDB_URL}/3/movie/top_rated`, {
         params: {
           api_key: "8625d30a47546513e5ec6c4b16b9d46a",
         },

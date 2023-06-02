@@ -113,25 +113,7 @@ app.post("/login", (req, res) => {
   });
 });
 
-app.put("/update/:id", (req, res) => {
-  const id = req.params.id;
-  const name = req.body.name;
-  const email = req.body.email;
-  const password = req.body.password;
 
-  db.query(
-    "UPDATE login SET name = ?, email = ?, password = ? WHERE id = ?",
-    [name, email, password, id],
-    (err, result) => {
-      if (err) {
-        console.error(err);
-        res.status(500).send({ error: "Failed to update data" });
-      } else {
-        res.status(200).send({ message: "Data updated successfully" });
-      }
-    }
-  );
-});
 
 // app.post("/login", (req, res) => {
 //   const email = req.body.email;

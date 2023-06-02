@@ -18,44 +18,6 @@ const Detail = () => {
   useEffect(() => {
     dispatch(getPostDetails(id));
   }, [dispatch, id]);
-  // const [postDetails, setDetails] = useState({});
-  // const { id } = useParams();
-
-  // useEffect(() => {
-  //   axios
-  //     .get(`https://api.themoviedb.org/3/movie/${id}`, {
-  //       params: {
-  //         api_key: "8625d30a47546513e5ec6c4b16b9d46a",
-  //       },
-  //     })
-  //     .then((response) => {
-  //       if (Object.keys(response.data).length > 0) {
-  //         setDetails(response.data);
-  //       }
-  //     });
-  // }, []);
-
-  // useEffect(() => {
-  //   axios
-  //     .get(`https://api.themoviedb.org/3/movie/${id}/credits`, {
-  //       params: {
-  //         api_key: "8625d30a47546513e5ec6c4b16b9d46a",
-  //       },
-  //     })
-  //     .then((response) => {
-  //       if (Object.keys(response.data).length > 0) {
-  //         setDetails((prevDetails) => {
-  //           return {
-  //             ...prevDetails,
-  //             credits: {
-  //               ...prevDetails.credits,
-  //               cast: response.data.cast,
-  //             },
-  //           };
-  //         });
-  //       }
-  //     });
-  // }, []);
 
   const bgImageStyle = {
     backgroundImage: `url(${bg})`,

@@ -1,23 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, animateScroll as scroll } from "react-scroll";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { logout } from "../redux/reducers/authReducers";
 import { AiOutlineCaretDown } from "react-icons/ai";
 import { VscSignOut } from "react-icons/vsc";
+import { getMe, logout } from "../redux/actions/authActions";
 
 const Navbar = () => {
   const dispatch = useDispatch();
   const [nav, setNav] = useState(false);
-  const { isLoggedIn } = useSelector((state) => state.auth);
-  const user = useSelector((state) => state.auth.user);
+  const { isLoggedIn, token, user } = useSelector((state) => state.auth);
   const [isOpen, setIsOpen] = useState(false);
+  const [sticky, setSticky] = useState(false);
 
   const toggleDropdown = () => {
     setRotate(!rotate);
     setIsOpen(!isOpen);
   };
+  useEffect(() => {
+    window.addEventListener("scroll", () => {
+      const nav = document.querySelector("nav");
+      window.scrollY > 0 ? setSticky(true) : setSticky(false);
+    });
+  }, []);
 
   const [rotate, setRotate] = useState(false);
 
@@ -27,72 +33,72 @@ const Navbar = () => {
 
   const handleClick = () => setNav(!nav);
   const navigate = useNavigate();
-  const handleClose = () => setNav(!nav);
 
-  const handleClickSearch = (i) => {
+  const handleClickSearch = () => {
     navigate(`/search`);
+    window.location.reload();
   };
-  const handleClickHome = (i) => {
+
+  const handleClickHome = () => {
     navigate(`/`);
+    window.location.reload();
   };
 
-  const handleClickLogin = (i) => {
+  const handleClickLogin = () => {
     navigate(`/Login`);
+    window.location.reload();
   };
 
-  const handlelogout = () => {
-    dispatch(logout());
-  };
+  useEffect(() => {
+    if (isLoggedIn && token) {
+      dispatch(getMe());
+    }
+  }, [dispatch, isLoggedIn, token]);
 
   return (
-    <div className="sticky top-0 z-10 bg-transparent justify-between drop-shadow-lg px-16 py-3">
+    <div
+      className={`fixed w-full left-0 top-0 md:px-10 p-5 drop-shadow-lg z-10 
+${sticky ? "bg-black text-white h-16 items-center" : "text-white"}`}
+    >
       <div className="flex justify-between items-center w-full text-white">
         <div className="w-20">
           <h1
-            className="font-bold lg:text-4xl text-2xl text-subMain"
-            onClick={() => handleClickHome(Navbar.i)}
+            className="font-bold lg:text-4xl text-2xl text-subMain cursor-pointer"
+            onClick={handleClickHome}
           >
             NETPLIG
           </h1>
         </div>
         <div className="lg:text-lg">
           <ul className="hidden md:flex font-semibold gap-3 md:gap-5">
-            <li
-              className="hover:text-subMain relative cursor-pointer transition-all 
-            before:absolute before:-bottom-2 before:left-0 before:w-0 before:h-1 before:rounded-full before:opacity-0 before:transition-all
-            before:duration-500 before:bg-subMain hover:before:w-full hover:before:opacity-100"
-            >
-              <span
+            <li className="nav-link">
+              <Link
                 to="home"
                 smooth={true}
                 duration={500}
-                onClick={() => handleClickHome(Navbar.i)}
+                onClick={handleClickHome}
               >
                 Home
-              </span>
+              </Link>
             </li>
-            <li
-              className="hover:text-subMain relative cursor-pointer transition-all 
-            before:absolute before:-bottom-2 before:left-0 before:w-0 before:h-1 before:rounded-full before:opacity-0 before:transition-all
-            before:duration-500 before:bg-subMain hover:before:w-full hover:before:opacity-100"
-            >
-              <span
+            <li className="nav-link">
+              <Link
                 to="about"
                 smooth={true}
                 offset={-200}
                 duration={500}
-                onClick={() => handleClickSearch(Navbar.i)}
+                onClick={handleClickSearch}
               >
                 Search
-              </span>
+              </Link>
             </li>
           </ul>
         </div>
         <div className="hidden md:flex pr-4">
           {isLoggedIn ? (
-            <ul className="flex gap-0">
-              <h1>
-                Welcome, {user && user.username ? user.username : "Guest"}
+            <ul className="flex gap-0 items-center">
+              <h1 className="text-white">
+                Welcome, {user && user.name ? user.name : "Guest"}
               </h1>
               <div className="relative">
                 <button
@@ -109,7 +115,7 @@ const Navbar = () => {
                   <div className="absolute text-red-700 font-medium bg-white rounded-sm w-28 px-3 py-2 top-10 right-0 text-center">
                     <button
                       className="flex gap-2"
-                      onClick={() => selectOption(handlelogout())}
+                      onClick={() => dispatch(logout(navigate))}
                     >
                       <p className="pt-1 text-xl">
                         <VscSignOut />
@@ -124,7 +130,7 @@ const Navbar = () => {
             <ul className="flex gap-3">
               <button
                 className="bg-red-600 rounded-sm font-bold px-4 py-1"
-                onClick={() => handleClickLogin()}
+                onClick={handleClickLogin}
               >
                 login
               </button>
@@ -140,19 +146,17 @@ const Navbar = () => {
           )}
         </div>
       </div>
-      <ul className={!nav ? "hidden" : " bg-zinc-200 w-full px-8"}>
-        <li className="border-b-2 border-zinc-300 w-full hover:text-green-500">
-          <Link
-            onClick={() => handleClickHome(Navbar.i)}
-            smooth={true}
-            duration={500}
-          >
+      <ul
+        className={!nav ? "hidden" : " bg-black w-full text-center text-white"}
+      >
+        <li className="border-b-2 border-zinc-300 py-3 w-full hover:text-subMain">
+          <Link onClick={handleClickHome} smooth={true} duration={500} classna>
             Home
           </Link>
         </li>
-        <li className="border-b-2 border-zinc-300 w-full">
+        <li className="border-b-2 border-zinc-300 w-full py-3 hover:text-subMain">
           <Link
-            onClick={() => handleClickSearch(Navbar.i)}
+            onClick={handleClickSearch}
             smooth={true}
             offset={-200}
             duration={500}
@@ -160,50 +164,48 @@ const Navbar = () => {
             Search
           </Link>
         </li>
-        <li className="border-b-2 border-zinc-300 w-full hover:text-green-500">
-          <div>
-            {isLoggedIn ? (
-              <ul className="flex gap-0">
-                <h1>
-                  Welcome, {user && user.username ? user.username : "Guest"}
-                </h1>
-                <div className="relative">
-                  <button
-                    className={`bg-transparent text-gray-700 font-semibold py-2 px-4 rounded inline-flex items-center transform transition duration-300 ease-in-out ${
-                      rotate ? "rotate-180" : ""
-                    }`}
-                    onClick={toggleDropdown}
-                  >
-                    <span className="text-white">
-                      <AiOutlineCaretDown />
-                    </span>
-                  </button>
-                  {isOpen && (
-                    <div className="absolute text-red-700 font-medium bg-white rounded-sm w-28 px-3 py-2 top-10 right-0 text-center">
-                      <button
-                        className="flex gap-2"
-                        onClick={() => handlelogout}
-                      >
-                        <p className="pt-1 text-xl">
-                          <VscSignOut />
-                        </p>
-                        <p>Log Out</p>
-                      </button>
-                    </div>
-                  )}
-                </div>
-              </ul>
-            ) : (
-              <ul className="flex gap-3">
+        <li className="border-b-2 border-zinc-300 py-3 w-full hover:text-subMain">
+          {isLoggedIn ? (
+            <ul className="flex gap-0 items-center">
+              <h1 className="text-white hover:text-subMain">
+                Welcome, {user && user.name ? user.name : "Guest"}
+              </h1>
+              <div className="relative">
                 <button
-                  className="bg-red-600 rounded-sm px-2 py-1"
-                  onClick={() => handleClickLogin()}
+                  className={`bg-transparent text-gray-700 font-semibold py-2 px-4 rounded inline-flex items-center transform transition duration-300 ease-in-out ${
+                    rotate ? "rotate-180" : ""
+                  }`}
+                  onClick={toggleDropdown}
                 >
-                  login
+                  <span className="text-white">
+                    <AiOutlineCaretDown />
+                  </span>
                 </button>
-              </ul>
-            )}
-          </div>
+                {isOpen && (
+                  <div className="absolute text-red-700 font-medium bg-white rounded-sm w-28 px-3 py-2 top-10 left-0 text-center">
+                    <button
+                      className="flex gap-2"
+                      onClick={() => dispatch(logout(navigate))}
+                    >
+                      <p className="pt-1 text-xl">
+                        <VscSignOut />
+                      </p>
+                      <p>Log Out</p>
+                    </button>
+                  </div>
+                )}
+              </div>
+            </ul>
+          ) : (
+            <ul className="flex gap-3">
+              <button
+                className="bg-red-600 rounded-sm px-2 py-1"
+                onClick={handleClickLogin}
+              >
+                login
+              </button>
+            </ul>
+          )}
         </li>
       </ul>
     </div>

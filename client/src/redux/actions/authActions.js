@@ -1,32 +1,19 @@
 import axios from "axios";
-import {
-  setIsLoggedIn,
-  setToken,
-  setUser,
-  logout,
-} from "../reducers/authReducers";
 import { toast } from "react-toastify";
+import { setIsLoggedIn, setToken, setUser } from "../reducers/authReducers";
 
-export const login = (email, password, navigate) => async (dispatch) => {
+export const login = (data, navigate) => async (dispatch) => {
   try {
-    const data = {
-      email: email,
-      password: password,
-    };
+    const response = await axios.post(
+      `${import.meta.env.VITE_AUTH_API}/api/v1/auth/login`,
+      data,
+      { "Content-Type": "application/json" }
+    );
 
-    const response = await axios.post("http://localhost:4000/login", data, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    const { token, user } = response.data;
+    const { token } = response?.data?.data;
 
     dispatch(setToken(token));
     dispatch(setIsLoggedIn(true));
-    dispatch(setUser(user));
-
-    // Redirect to home, don't forget to useNavigate in the component
     navigate("/");
   } catch (error) {
     if (axios.isAxiosError(error?.response?.data?.message)) {
@@ -40,23 +27,81 @@ export const login = (email, password, navigate) => async (dispatch) => {
 export const register = (data, navigate) => async (dispatch) => {
   try {
     const response = await axios.post(
-      `http://localhost:4000/signup`,
+      `${import.meta.env.VITE_AUTH_API}/api/v1/auth/register`,
       data,
-      { headers: { "Content-Type": "application/json" } }
+      { "Content-Type": "application/json" }
     );
 
     const { token } = response?.data?.data;
 
-    // Get the navigate function from useNavigate
-
-    // Redirect to login page
-    navigate("/Login");
+    dispatch(setToken(token));
+    dispatch(setIsLoggedIn(true));
+    navigate("/login");
   } catch (error) {
     if (axios.isAxiosError(error)) {
       toast.error(error?.response?.data?.message);
       return;
     }
 
+    toast.error(error.message);
+  }
+};
+
+export const logout = (navigate) => async (dispatch) => {
+  dispatch(setToken(null));
+  dispatch(setIsLoggedIn(false));
+  dispatch(setUser(null));
+  navigate("/");
+};
+
+export const getMe = () => async (dispatch, getState) => {
+  try {
+    const { token } = getState().auth;
+
+    const response = await axios.get(
+      `${import.meta.env.VITE_AUTH_API}/api/v1/auth/me`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    const { data } = response?.data;
+    dispatch(setUser(data));
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      toast.error(error?.response?.data?.message);
+      if (error.response.status === 401) {
+        dispatch(logout());
+      }
+      return;
+    }
+
+    toast.error(error.message);
+  }
+};
+
+export const googleLogin = (data, navigate) => async (dispatch) => {
+  try {
+    const response = await axios.post(
+      `${import.meta.env.VITE_AUTH_API}/api/v1/auth/google`,
+      data,
+      { "Content-Type": "application/json" }
+    );
+
+    const { token } = response?.data?.data;
+
+    dispatch(setToken(token));
+    dispatch(setIsLoggedIn(true));
+
+    //redirect to home, dont forget to useNavigate in the component
+    navigate("/");
+  } catch (error) {
+    if (axios.isAxiosError(error?.response?.data?.message)) {
+      toast.error(error?.response?.data?.message);
+      return;
+    }
     toast.error(error.message);
   }
 };

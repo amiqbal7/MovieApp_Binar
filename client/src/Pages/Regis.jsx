@@ -11,9 +11,9 @@ function Signup() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [nameError, setNameError] = useState(""); // Pesan kesalahan untuk nama
-  const [emailError, setEmailError] = useState(""); // Pesan kesalahan untuk email
-  const [passwordError, setPasswordError] = useState(""); // Pesan kesalahan untuk password
+  const [nameError, setNameError] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
 
   const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
   const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
@@ -21,9 +21,8 @@ function Signup() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    let isValid = true; // Validasi keseluruhan
+    let isValid = true;
 
-    // Validasi nama
     if (name.trim() === "") {
       setNameError("Name is required");
       isValid = false;
@@ -31,7 +30,6 @@ function Signup() {
       setNameError("");
     }
 
-    // Validasi email
     if (email.trim() === "") {
       setEmailError("Email is required");
       isValid = false;
@@ -42,7 +40,6 @@ function Signup() {
       setEmailError("");
     }
 
-    // Validasi password
     if (password.trim() === "") {
       setPasswordError("Password is required");
       isValid = false;
@@ -55,13 +52,12 @@ function Signup() {
 
     if (isValid) {
       const data = { email, password, name };
-      dispatch(register(data));
-      navigate("/Login");
+      dispatch(register(data, navigate)); // Tambahkan `navigate` sebagai parameter
     }
   };
 
   return (
-    <div className="text-white">
+    <div className="text-white mx-8">
       <div className="lg:grid grid-cols-2">
         <div className="hidden lg:block">
           <img src={spider} className="h-[800px] w-full" alt="Spider" />
@@ -124,7 +120,9 @@ function Signup() {
                     passwordError && "border-red-700"
                   }`}
                 />
-                {passwordError && <p className="text-red-700">{passwordError}</p>}
+                {passwordError && (
+                  <p className="text-red-700">{passwordError}</p>
+                )}
               </div>
               <button
                 type="submit"
