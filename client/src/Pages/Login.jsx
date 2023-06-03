@@ -29,7 +29,7 @@ const Login = () => {
     <div className="pt-0 text-white">
       <div className="lg:grid grid-cols-2">
         <div className="hidden lg:block">
-          <img src={spider} class="h-[800px] w-full" />
+          <img src={spider} className="h-[800px] w-full" />
         </div>
         <div className="mx-auto grid justify-items-center pt-36">
           <div className="">

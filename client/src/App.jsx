@@ -12,6 +12,7 @@ import { Provider } from "react-redux";
 import store from "./redux/store";
 import RedirectifProtected from "./components/RedirectifProtected";
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import NotFound from "./components/NotFound";
 
 const App = () => {
   return (
@@ -43,6 +44,7 @@ const AppContent = () => {
         <Route path="/" element={<Home />} />
         <Route path="/Home" element={<Home />} />
         <Route path="/search" element={<Search />} />
+        <Route path="/*" element={<NotFound />} />
         <Route
           path="/Login"
           element={
