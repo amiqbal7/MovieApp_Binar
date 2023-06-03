@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, animateScroll as scroll } from "react-scroll";
+import { Link } from "react-router-dom";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";

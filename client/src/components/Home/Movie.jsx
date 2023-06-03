@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AiFillHeart } from "react-icons/ai";
-import axios from "axios";
 import { Autoplay } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { getPosts } from "../../redux/actions/postActions";
