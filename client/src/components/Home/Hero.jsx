@@ -16,7 +16,7 @@ export const Hero = () => {
   }, [dispatch]);
 
   return (
-    <div className="lg:mt-[-68px] mt-[-51px] md:mt-[-68px]">
+    <div>
       <Swiper
         direction="horizontal"
         slidesPerView={1}
@@ -31,7 +31,7 @@ export const Hero = () => {
       >
         {posts?.slice(0, 6).map((movie) => (
           <SwiperSlide
-            className="linear-bg relative rounded overflow-hidden"
+            className="relative rounded overflow-hidden"
             key={movie.id}
           >
             <div className="">
@@ -43,7 +43,7 @@ export const Hero = () => {
                 className="w-full h-[550px] md:h-full object-cover"
               />
               <div className="">
-                <div className="absolute xl:pl-40 sm:pl-32 linear-bg py-48 sm:py-36 md:py-56 lg:py-72 xl:py-[350px] pb-[1200px] pl-12 top-0 right-0 left-0 flex flex-col md:gap-3 lg:gap-4 gap-1 justify-center">
+                <div className="absolute xl:pl-40 linear-bg py-[350px] sm:py-80 md:py-56 lg:py-72 xl:py-[430px] pb-[1200px] pl-12 sm:pl-14 top-0 right-0 left-0 flex flex-col md:gap-3 lg:gap-4 gap-1 justify-center">
                   <h1 className="text-white lg:text-4xl xl:text-6xl truncate capitalize font-sans sm:text-2xl text-lg font-bold ">
                     {movie.title}
                   </h1>
