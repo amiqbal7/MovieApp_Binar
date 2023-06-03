@@ -33,7 +33,7 @@ const AppContent = () => {
   useEffect(() => {
     const currentPath = location.pathname;
     setShowNavbarFooter(
-      currentPath !== "/Login" && currentPath !== "/Register"
+      currentPath !== "/Login" && currentPath !== "/register"
     );
   }, [location]);
 
@@ -54,7 +54,7 @@ const AppContent = () => {
           }
         />
         <Route
-          path="/Register"
+          path="/register"
           element={
             <RedirectifProtected>
               <Regis />

@@ -197,9 +197,9 @@ ${sticky ? "bg-black text-white h-16 items-center" : "text-white"}`}
               </div>
             </ul>
           ) : (
-            <ul className="flex gap-3">
+            <ul className="flex gap-3 justify-center">
               <button
-                className="bg-red-600 rounded-sm px-2 py-1"
+                className="bg-red-600 hover:bg-transparent hover:border rounded-sm px-2 py-1"
                 onClick={handleClickLogin}
               >
                 login
